@@ -1,98 +1,117 @@
 "use client";
 
 import Link from "next/link";
-import Header from "../components/Header"; 
-import { ArrowRight, ShieldCheck, FileSearch, Calendar, CheckCircle, ArrowUpRight } from "lucide-react";
+import { useUser} from "@clerk/nextjs";
+
+import {ShieldCheck, FileSearch, Calendar, ArrowUpRight, LogIn } from "lucide-react";
+import { usePathname } from "next/navigation";
+
 
 export default function HomePage() {
+  const { isSignedIn, isLoaded } = useUser();
+  const pathname = usePathname();
   return (
-    <div className="min-h-screen bg-[#fafafa] text-slate-900 selection:bg-blue-100 selection:text-blue-700">
-      <Header />
+<div className="min-h-screen bg-[#020617] text-white relative overflow-hidden">
+      
+      {/* Background System (Image / Overlay) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img 
+          src="/bg-cads.jpg" 
+          alt="CADS"
+          className="w-full h-full object-cover opacity-30 mix-blend-overlay grayscale" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-[#020617]/80 to-[#020617]" />
+      </div>
 
-      <main>
-        {/* Section Hero - Ajout d'un badge et d'un dégradé de fond */}
-        <section className="relative pt-24 pb-32 overflow-hidden">
-          {/* Décoration d'arrière-plan */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-50/50 blur-[120px]" />
-            <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] rounded-full bg-indigo-50/50 blur-[100px]" />
-          </div>
-
+      <main className="relative z-10">
+        <section className="pt-32 pb-40 md:pt-48 md:pb-60">
           <div className="max-w-7xl mx-auto px-6 text-center">
 
-            <h1 className="text-5xl md:text-8xl font-black tracking-tight text-slate-900 mb-8 leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              Simplifiez votre <br />
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                comptabilité.
-              </span>
+            {/* UTILISATION DE LA CLASSE LOGO NÉON */}
+            <h1 className="logo-cads-neon mb-6 animate-in fade-in slide-in-from-top-10 duration-1000">
+              CADS
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium leading-relaxed animate-in fade-in slide-in-from-bottom-5 duration-1000">
-              CADS centralise vos clients, sécurise vos documents fiscaux et automatise le suivi de vos obligations légales en un seul endroit.
-            </p>
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                Solutions de Comptabilité <br /> et Gestion Fiscale
+              </h2>
+              <p className="text-lg md:text-xl text-blue-200/50 max-w-2xl mx-auto font-medium">
+                Optimise vos finances. Simplifie la conformité.
+              </p>
+            </div>
             
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              <Link 
-                href="/dashboard" 
-                className="w-full sm:w-auto bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold shadow-2xl shadow-slate-200 hover:bg-slate-800 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group"
-              >
-                Démarrer maintenant
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-              
-              <Link 
-                href="#features" 
-                className="w-full sm:w-auto bg-white text-slate-600 border border-slate-200 px-10 py-5 rounded-2xl font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
-              >
-                En savoir plus
+            <div className="mt-16 flex justify-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
+              {/* UTILISATION DE LA CLASSE BOUTON NÉON */}
+              <Link href="/dashboard" className="btn-neon-blue group">
+                Se Connecter / S'inscrire
+                <LogIn size={22} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
+
           </div>
         </section>
 
-        {/* Section Bento-Grid style pour les Features */}
-        <section id="features" className="py-24 bg-white border-y border-slate-100">
+        {/* SECTION FEATURES - Style Bento-Grid Sombre / Navy */}
+        <section id="features" className="py-32  backdrop-blur-sm ">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-20">
-              <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-4">Fonctionnalités</h2>
-              <p className="text-3xl md:text-4xl font-bold text-slate-900">Tout ce dont vous avez besoin</p>
+            
+            <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+              <div className="text-left">
+                <h2 className="text-sm font-black text-[#38bdf8] uppercase tracking-[0.4em] mb-4">L'Écosystème</h2>
+                <p className="text-4xl md:text-5xl font-bold text-white tracking-tight">Une gestion sans compromis</p>
+              </div>
+              <p className="text-blue-100/40 text-sm max-w-sm text-left md:text-right font-medium">
+                Conçu pour les cabinets comptables et les entrepreneurs exigeants du Québec.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Carte Feature */}
               <Feature 
-                icon={<ShieldCheck className="w-8 h-8 text-blue-600" />} 
-                title="Sécurité Bancaire" 
-                desc="Chiffrement AES-256 pour vos documents et authentification biométrique via Clerk." 
+                icon={<ShieldCheck className="w-9 h-9 text-[#38bdf8]" />} 
+                title="Conformité Totale" 
+                desc="Protection de niveau bancaire AES-256 pour les NAS et données confidentielles." 
               />
               <Feature 
-                icon={<FileSearch className="w-8 h-8 text-indigo-600" />} 
-                title="Recherche Instantanée" 
-                desc="Accédez aux dossiers clients par nom, courriel ou NAS en moins de 300ms." 
+                icon={<FileSearch className="w-9 h-9 text-[#38bdf8]" />} 
+                title="Accès Instantané" 
+                desc="Recherche ultra-rapide par nom, entreprise ou courriel pour un suivi client optimal." 
               />
               <Feature 
-                icon={<Calendar className="w-8 h-8 text-blue-500" />} 
-                title="Alertes Intelligentes" 
-                desc="Notifications automatiques pour les dates limites de la TP1 et T1 au Québec." 
+                icon={<Calendar className="w-9 h-9 text-[#38bdf8]" />} 
+                title="Calendrier Fiscal" 
+                desc="Suivi automatisé des obligations gouvernementales (T1, TP1) en temps réel." 
               />
             </div>
           </div>
         </section>
       </main>
+
     </div>
   );
 }
 
+/**
+ * Sous-composant Feature
+ */
 function Feature({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
   return (
-    <div className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group">
-      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform">
+    <div className="p-12 rounded-[3.5rem] bg-[#0d1117]/50 border border-white/5 hover:border-blue-500/30 hover:bg-[#0d1117] transition-all duration-500 group relative overflow-hidden">
+      {/* Effet de lueur au survol */}
+      <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-[3.5rem]" />
+      
+      {/* Icône Conteneur */}
+      <div className="w-20 h-20 bg-[#020617] border border-white/10 rounded-3xl flex items-center justify-center mb-10 shadow-2xl group-hover:scale-105 group-hover:border-[#38bdf8]/30 transition-all">
         {icon}
       </div>
-      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+      
+      <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
         {title} 
-        <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400" />
+        <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity text-[#38bdf8]" />
       </h3>
-      <p className="text-slate-500 leading-relaxed text-sm">
+      
+      <p className="text-blue-100/50 leading-relaxed text-base font-medium">
         {desc}
       </p>
     </div>
